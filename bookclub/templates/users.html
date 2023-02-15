@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% load i18n %}
+<div class="container wrapper flex-grow-1">
+    <h1 class="my-4">Участники</h1>    
+<table class="table table-striped">
+<thead>
+  <tr>
+    <th>{% trans 'Username' %}</th>
+    <th>Полное Имя</th>
+    <th>Дата вступления</th>
+    <th></th>
+  </tr>
+</thead>
+<tbody>
+    {% for u in users_list %}  
+    <tr>
+      <td>{{ u.username }}</td>
+      <td>{{ u.get_full_name }}</td>
+      <td>{{ u.date_joined }}</td>
+      <td>
+        <a href="{% url 'user_update' pk=u.id %}">{% trans 'Update' %}</a>
+        <br>
+        <a href="{% url 'user_delete' pk=u.id %}">{% trans 'Delete' %}</a>
+      </td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+
+  </div>
+{% endblock %}

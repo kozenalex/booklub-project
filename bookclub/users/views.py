@@ -21,7 +21,7 @@ class UserView(LoginRequiredMixin, SuccessMessageMixin):
 
 class UsersListView(ListView):
 
-    model = Profile
+    model = User
     context_object_name = 'users_list'
     template_name = 'users.html'
 
@@ -35,7 +35,8 @@ class UserCreateView(SuccessMessageMixin, CreateView):
     extra_context = {
         'tele_form': ProfileForm,
         'title': 'Регистрация в клубе',
-        'button': 'Зарегистрироваться'
+        'button': 'Зарегистрироваться',
+        'is_user': True
     }
     success_url = reverse_lazy('login')
 
@@ -48,7 +49,8 @@ class UserUpdateView(UserView, UpdateView):
     extra_context = {
         'tele_form': ProfileForm,
         'title': _('Update user profile'),
-        'button': _('Update')
+        'button': _('Update'),
+        'is_user': True
     }
     success_message = _('Profile updated')
     success_url = reverse_lazy('users_list')

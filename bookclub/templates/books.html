@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% load i18n %}
+<div class="container wrapper flex-grow-1">
+    <h1 class="my-4">Книги клуба:</h1>
+{% if user.is_staff %}
+<a class="nav-link" href="{% url 'book_create' %}">Добавить книгу</a>
+{% endif %}
+<table class="table table-striped">
+<thead>
+  <tr>
+    <th>Название</th>
+    <th>Дата обсуждения</th>
+    <th>Обложка</th>
+  </tr>
+</thead>
+<tbody>
+    {% for s in books_list %}  
+    <tr>
+      <td>{{ s.title }}</td>
+      <td>{{ s.created_at }}</td>
+      <td>
+        {{s.img}}
+      </td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+
+  </div>
+{% endblock %}

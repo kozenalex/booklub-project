@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', bookclub.views.HomeView.as_view(), name='index_page'),
     path('users/', include('users.urls')),
+    path('books/', include('books.urls')),
     path('login/', bookclub.views.UserAuthView.as_view(), name='login'),
     path('logout/', bookclub.views.UserLogoutView.as_view(), name='logout')
 ]

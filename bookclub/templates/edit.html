@@ -5,7 +5,9 @@
 <h1 class="my-4 text-light">{{title}}</h1>
 <form action="." method="post" class="form text-light">
     {% csrf_token %}
-    {% bootstrap_form tele_form %}
+    {% if is_user %}
+        {% bootstrap_form tele_form %}
+    {% endif %}
     {% bootstrap_form form %}
     {% buttons %}
       <button type="submit" class="btn btn-primary">
