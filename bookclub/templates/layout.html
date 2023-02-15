@@ -1,0 +1,33 @@
+{% load i18n %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery=True %}
+{% get_current_language as LANGUAGE_CODE %}
+
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>BookClub Fantastic</title>
+    {% bootstrap_css %}
+  </head>
+  <body class="bg-dark">
+    <div class="container mt-4">
+        <header>
+            {% include "navigation.html" %}
+        </header>
+      </div>
+
+      <div class="container">
+      <main>
+        <div class="container wrapper flex-grow-1">
+          {% if messages %}
+              {% bootstrap_messages %}
+          {% endif %}
+        {% block content %}
+        {% endblock %}
+        </div>
+      </main>
+      </div>
+      </body>
+</html>

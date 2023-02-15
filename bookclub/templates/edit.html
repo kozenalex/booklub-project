@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+{% load bootstrap4 %}
+{% load i18n %}
+{% block content %}
+<h1 class="my-4 text-light">{{title}}</h1>
+<form action="." method="post" class="form text-light">
+    {% csrf_token %}
+    {% bootstrap_form tele_form %}
+    {% bootstrap_form form %}
+    {% buttons %}
+      <button type="submit" class="btn btn-primary">
+        {{button}}
+      </button>
+    {% endbuttons %}
+  </form>
+{% endblock %}

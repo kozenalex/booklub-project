@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+{% load bootstrap4 %}
+{% load i18n %}
+{% block content %}
+<h1 class="my-4">Авторизация</h1>
+<form action="{% url 'login' %}" method="post" class="form">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+      <button type="submit" class="btn btn-primary">
+        Войти
+      </button>
+    {% endbuttons %}
+  </form>
+{% endblock %}

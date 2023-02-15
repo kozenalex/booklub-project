@@ -1,0 +1,22 @@
+{% load i18n %}
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-grey border-bottom shadow-sm">
+    <a class="my-0 mr-md-auto font-weight-normal" href="{% url 'index_page' %}">
+        <h5 class="text-light">Книжный клуб Фантастика</h5>
+    </a>
+    <nav class="my-2 my-md-0 mr-md-3">
+      {% if user.is_authenticated %}
+      <a class="p-2 text-dark" href="">{{statuses}}</a>
+      <a class="p-2 text-dark" href="">{{labels}}</a>
+      <a class="p-2 text-dark" href="">{{tasks}}</a>
+      {% endif %}
+      <a class="p-2 text-light" href="">Книги</a>
+      {% if not user.is_authenticated %}
+      <a class="p-2 text-light" href="{% url 'user_create' %}">Стать членом клуба</a>
+      {% endif %}
+    </nav>
+    {% if user.is_authenticated %}
+    <a class="btn btn-outline-primary" href="{% url 'logout' %}">Выйти</a>
+    {% else %}
+    <a class="btn btn-outline-primary" href="{% url 'login' %}">Войти</a>
+    {% endif %}
+</div>
