@@ -9,37 +9,35 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import gettext as _
-from users.forms import MyUserCreationForm, ProfileForm
-from users.models import Profile
+from users.forms import MyUserCreationForm
+from users.models import MyUser
 
 
 class UserView(LoginRequiredMixin, SuccessMessageMixin):
 
     login_url = 'login'
-    model = Profile
+    model = MyUser
 
 
 class UsersListView(ListView):
 
-    model = User
+    model = MyUser
     context_object_name = 'users_list'
     template_name = 'users.html'
 
 
 class UserCreateView(SuccessMessageMixin, CreateView):
 
-    model = Profile
+    model = MyUser
     form_class = MyUserCreationForm
     template_name = 'edit.html'
     success_message = 'Регистрация прошла успешно!'
     extra_context = {
-        'tele_form': ProfileForm,
         'title': 'Регистрация в клубе',
         'button': 'Зарегистрироваться',
         'is_user': True
     }
     success_url = reverse_lazy('login')
-
 
 class UserUpdateView(UserView, UpdateView):
 
@@ -47,7 +45,6 @@ class UserUpdateView(UserView, UpdateView):
     model = User
     template_name = 'edit.html'
     extra_context = {
-        'tele_form': ProfileForm,
         'title': _('Update user profile'),
         'button': _('Update'),
         'is_user': True

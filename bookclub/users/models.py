@@ -1,21 +1,25 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+import django.core.validators as validators
+from django.utils.deconstruct import deconstructible
 
-class Profile(models.Model):
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    telegram = models.CharField(max_length=255, blank=True)
+@deconstructible
+class UnicodeTelegramValidator(validators.RegexValidator):
+    regex = r"^@[\w]{1,254}"
+    message = """"
+        "Введите правильный ник телеграм, он начинается с @."
+    """
+    flags = 0
 
+
+class MyUser(User):
+
+    telegram = models.CharField(
+        max_length=255,
+        blank=True,
+        validators=[UnicodeTelegramValidator()],
+        help_text="Обязательное поле. Начинается с @"
+    )
     def __str__(self):
-        return self.user.get_full_name
-
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+        return self.get_full_name()
