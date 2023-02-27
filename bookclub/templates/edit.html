@@ -3,6 +3,8 @@
 {% load i18n %}
 {% block content %}
 <h1 class="my-4 text-light">{{title}}</h1>
+<div class="row p-1">
+<div class="col">
 <form action="." method="post" class="form text-light" enctype="multipart/form-data">
     {% csrf_token %}
     {% bootstrap_form form %}
@@ -12,4 +14,34 @@
       </button>
     {% endbuttons %}
   </form>
+  </div>
+  {% if is_user %}
+  <div class="col">
+    <div class="card">
+      <div class="card-heade bg-secondary text-white">
+        <h2 class="m-2">{{user}}</h2>
+      </div>
+      <div class="card-body bg-light">
+        <div class="row p-1">
+          <div class="col">
+          {% if user.avatar %}
+          <img src="{{user.avatar.url}}" alt="" class="rounded-circle" style="width: auto; height: 300px;">
+          {% endif %}
+          </div>
+        </div>
+          <div class="row p-1">
+          <a href="{% url 'avatar_update' pk=user.id %}">Аватар</a>
+          </div>
+        </div>
+        <div class="row p-1">
+        <a href="{% url 'pass_change' pk=user.id%}" class="nav-link">Изменить пароль</a>
+        </div>
+        <div class="row p-1">
+          <a href="{% url 'user_delete' pk=user.id %}" class="nav-link">Удалить профиль</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  </div>
 {% endblock %}

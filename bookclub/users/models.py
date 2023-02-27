@@ -21,5 +21,10 @@ class MyUser(User):
         validators=[UnicodeTelegramValidator()],
         help_text="Обязательное поле. Начинается с @"
     )
+    avatar = models.ImageField(
+        upload_to='avatars/%Y-%m-%d',
+        null=True,
+        blank=True
+    )
     def __str__(self):
         return self.get_full_name()

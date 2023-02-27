@@ -21,9 +21,11 @@
       <td>{{ u.telegram }}</td>
       <td>{{ u.date_joined }}</td>
       <td>
-        <a href="{% url 'user_update' pk=u.id %}">{% trans 'Update' %}</a>
-        <br>
-        <a href="{% url 'user_delete' pk=u.id %}">{% trans 'Delete' %}</a>
+        {% if u.avatar %}
+        <img src="{{u.avatar.url}}" class="rounded-square" style="width: auto; height: 70px;" alt="">
+        {% else %}
+        <img src="" alt="">
+        {% endif %}
       </td>
     </tr>
     {% endfor %}

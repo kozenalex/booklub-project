@@ -9,7 +9,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import gettext as _
-from users.forms import MyUserCreationForm
+from users.forms import MyUserCreationForm, UserAvaUpdateForm, UserUpdateForm
 from users.models import MyUser
 
 
@@ -35,15 +35,16 @@ class UserCreateView(SuccessMessageMixin, CreateView):
     extra_context = {
         'title': 'Регистрация в клубе',
         'button': 'Зарегистрироваться',
-        'is_user': True
+        'is_user': False
     }
     success_url = reverse_lazy('login')
 
 class UserUpdateView(UserView, UpdateView):
 
-    form_class = MyUserCreationForm
-    model = User
+    form_class = UserUpdateForm
+    model = MyUser
     template_name = 'edit.html'
+    context_object_name = 'user'
     extra_context = {
         'title': _('Update user profile'),
         'button': _('Update'),
@@ -59,6 +60,17 @@ class UserPassChangeView(UserView, PasswordChangeView):
     success_message = _('Password changed')
     success_url = reverse_lazy('users_list')
 
+
+class UserAvaChangeView(UserView, UpdateView):
+
+    form_class = UserAvaUpdateForm
+    context_object_name = 'user'
+    template_name = 'ava_change.html'
+    success_message = _('Avatar changed')
+    
+    def get_success_url(self) -> str:
+        user_id = self.get_object().id
+        return reverse_lazy('user_update', kwargs={'pk': user_id})
 
 class UserDeleteView(UserView, DeleteView):
 

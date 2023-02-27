@@ -7,6 +7,7 @@
       {% if user.is_authenticated %}
       <a class="p-2 text-light" href="{% url 'users_list' %}">Участники</a>
       <a class="p-2 text-light" href="">Встречи</a>
+      <a class="p-2 text-light" href="{% url 'user_update' pk=user.id %}">Профиль</a>
       {% endif %}
       <a class="p-2 text-light" href="{% url 'books_list' %}">Книги</a>
       {% if not user.is_authenticated %}
