@@ -3,7 +3,7 @@
 {% load i18n %}
 {% block content %}
 <h1 class="my-4 text-light">{{title}}</h1>
-<form action="." method="post" class="form text-light">
+<form action="." method="post" class="form text-light" enctype="multipart/form-data">
     {% csrf_token %}
     {% bootstrap_form form %}
     {% buttons %}

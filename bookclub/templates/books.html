@@ -20,7 +20,7 @@
       <td>{{ s.title }}</td>
       <td>{{ s.created_at }}</td>
       <td>
-        {{s.img}}
+        <img src={{s.img.url}} alt="" class="img-fluid img-thumbnail" style="width:auto; height: 100px;">
       </td>
     </tr>
     {% endfor %}

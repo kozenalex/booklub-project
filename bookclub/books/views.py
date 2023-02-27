@@ -27,7 +27,7 @@ class BookCreateView(BooksView, CreateView):
     success_url = reverse_lazy('books_list')
     extra_context = {
         'title': 'Добавить кнгу',
-        'button': 'Добавить'
+        'button': 'Добавить',
     }
 
 
