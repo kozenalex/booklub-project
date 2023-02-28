@@ -11,7 +11,7 @@ class HomeView(TemplateView):
 
     template_name = 'home.html'
     extra_context = {
-        'm': Meeting.objects.all().first(),
+        'm': Meeting.objects.all().last(),
         'form': TempUserForm
     }
 

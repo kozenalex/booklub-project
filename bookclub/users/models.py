@@ -38,4 +38,7 @@ class TempUser(models.Model):
         max_length=255,
         validators=[UnicodeTelegramValidator()],
         help_text="Обязательное поле. Начинается с @"
-    ) 
+    )
+
+    def __str__(self) -> str:
+        return self.name

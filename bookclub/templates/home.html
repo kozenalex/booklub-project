@@ -14,7 +14,7 @@
           <h5>Записаться на встречу клуба</h5>
         </div>
         <div class="card-body">
-          <form action="" method="post">
+          <form action="{% url 'add_meeting_member' %}" method="post">
             {% csrf_token %}
             {% bootstrap_form form %}
             <input type="submit" class="btn-primary" value="Записаться">

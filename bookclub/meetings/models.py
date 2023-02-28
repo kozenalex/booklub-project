@@ -11,13 +11,12 @@ class Meeting(models.Model):
         MyUser,
         through='MeetingToUser'
     )
-    temp_users = models.ForeignKey(TempUser, on_delete=models.CASCADE, null=True)
+    temp_users = models.ManyToManyField(TempUser, blank=True)
 
     @property
     def get_people(self):
-        members = self.particepents.all() if self.particepents else self.particepents
         others = self.temp_users.all() if self.temp_users else self.temp_users
-        return members + others
+        return others
 
 class MeetingToUser(models.Model):
 
