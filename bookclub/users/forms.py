@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.forms.widgets import ClearableFileInput
-from users.models import MyUser
+from users.models import MyUser, TempUser
 
 
 class MyUserCreationForm(UserCreationForm):
@@ -24,8 +24,6 @@ class MyAvaWidget(ClearableFileInput):
 
 class UserAvaUpdateForm(forms.ModelForm):
 
-
-    
     class Meta(MyAvaWidget):
 
         model = MyUser
@@ -34,4 +32,9 @@ class UserAvaUpdateForm(forms.ModelForm):
         widgets = {
            'avatar': MyAvaWidget() 
         }
-        
+
+class TempUserForm(forms.ModelForm):
+
+    class Meta:
+        model = TempUser   
+        fields = ['name', 'email', 'telegram']

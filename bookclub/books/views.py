@@ -7,7 +7,7 @@ from books.models import Book
 
 
 
-class BooksView(LoginRequiredMixin, SuccessMessageMixin):
+class BooksView(SuccessMessageMixin):
     login_url = 'login'
     model = Book
 
@@ -19,7 +19,7 @@ class BooksListView(BooksView, ListView):
     extra_context = {'title': 'Книги клуба:'}
 
 
-class BookCreateView(BooksView, CreateView):
+class BookCreateView(LoginRequiredMixin, BooksView, CreateView):
 
     fields = ['title', 'description', 'img']
     template_name = 'edit.html'

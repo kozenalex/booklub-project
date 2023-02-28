@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% load i18n %}
+<div class="container wrapper flex-grow-1">
+    <h1 class="my-4">Встречи клуба:</h1>
+{% if user.is_staff %}
+<a class="nav-link" href="{% url 'meeting_create' %}">Запланировать встречу:</a>
+{% endif %}
+<table class="table table-striped">
+<thead>
+  <tr>
+    <th>Дата Встречи</th>
+    <th>Участники</th>
+    <th>Книга</th>
+  </tr>
+</thead>
+<tbody>
+    {% for s in meetings_list %}  
+    <tr>
+      <td>{{ s.date }}</td>
+      <td>
+        <ul>
+            {% for p in s.get_people %}
+            <li>p</li>
+            {% endfor %}
+        </ul>
+      </td>
+      <td>
+        s.book
+      </td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+
+  </div>
+{% endblock %}

@@ -28,3 +28,14 @@ class MyUser(User):
     )
     def __str__(self):
         return self.get_full_name()
+
+
+class TempUser(models.Model):
+
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    telegram = models.CharField(
+        max_length=255,
+        validators=[UnicodeTelegramValidator()],
+        help_text="Обязательное поле. Начинается с @"
+    ) 

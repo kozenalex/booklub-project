@@ -3,16 +3,22 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
-from users.models import User
+from users.forms import TempUserForm
+from users.models import MyUser
+from meetings.models import Meeting
 
 class HomeView(TemplateView):
 
     template_name = 'home.html'
+    extra_context = {
+        'm': Meeting.objects.all().first(),
+        'form': TempUserForm
+    }
 
 
 class UserAuthView(SuccessMessageMixin, LoginView):
 
-    model = User
+    model = MyUser
     template_name = 'login.html'
     success_message = 'Вы вошли успешно!'
 

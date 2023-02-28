@@ -12,3 +12,6 @@ class Book(models.Model):
     )
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.title

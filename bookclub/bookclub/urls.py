@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 import bookclub.views
 from django.conf.urls.static import static
-from django.conf import settings
+from bookclub import settings
 import users
 
 urlpatterns = [
@@ -25,6 +25,7 @@ urlpatterns = [
     path('', bookclub.views.HomeView.as_view(), name='index_page'),
     path('users/', include('users.urls')),
     path('books/', include('books.urls')),
+    path('meetings/', include('meetings.urls')),
     path('login/', bookclub.views.UserAuthView.as_view(), name='login'),
     path('logout/', bookclub.views.UserLogoutView.as_view(), name='logout')
 ]

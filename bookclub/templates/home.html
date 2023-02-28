@@ -1,11 +1,26 @@
+
 {% extends 'layout.html'%}
 {% block content %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery=True %}
 <div class="row">
     <div class="col-md-6">
       {% include 'meeting.html' %}
     </div>
     <div class="col-md-6">
-      Zapis
+      <div class="card">
+        <div class="card-header">
+          <h5>Записаться на встречу клуба</h5>
+        </div>
+        <div class="card-body">
+          <form action="" method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <input type="submit" class="btn-primary" value="Записаться">
+          </form>
+        </div>
+      </div>
     </div>
   </div>
   {% endblock %}
