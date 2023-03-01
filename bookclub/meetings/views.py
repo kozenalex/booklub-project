@@ -31,7 +31,7 @@ class MeetingCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
 
 class AddMeetingMember(FormView):
 
-    meeting = Meeting.objects.all().last()
+    meeting = Meeting.objects.last()
     form_class = TempUserForm
     success_url = reverse_lazy('index_page')
     success_message = 'Вы успешно записаны на следующую встречу!'
@@ -43,8 +43,8 @@ class AddMeetingMember(FormView):
 
     def form_valid(self, form):
         data = form.cleaned_data
-        if Meeting.objects.last().temp_users.filter(telegram=data['telegram']) or \
-            Meeting.objects.last().temp_users.filter(email=data['email']):
+        if self.meeting.temp_users.filter(telegram=data['telegram']) or \
+            self.meeting.temp_users.filter(email=data['email']):
                 self.success_message = 'Вы уже зарегистрированы на встречу!'
         else:
             t = TempUser.objects.create(
