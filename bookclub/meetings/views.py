@@ -1,9 +1,11 @@
 from django.urls import reverse_lazy
 from django.views import View
+from django.contrib import messages
 from django.views.generic import ListView, FormView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
+from meetings.forms import MeetingCreateForm
 from users.forms import TempUserForm
 from users.models import MyUser, TempUser
 
@@ -16,13 +18,13 @@ class MeetingsListView(ListView, LoginRequiredMixin):
     context_object_name = 'meetings_list'
     
 
-class MeetingCreateView(CreateView, LoginRequiredMixin, SuccessMessageMixin):
+class MeetingCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
 
     model = Meeting
     template_name = 'edit.html'
-    success_message = ('Встреча запланирована')
-    success_url = reverse_lazy('index_page')
-    fields = ['date', 'book', 'place']
+    success_message = 'Встреча запланирована'
+    success_url = reverse_lazy('meetings_list')
+    form_class = MeetingCreateForm
     extra_context = {
         'button': 'Запланировать'
     }
@@ -44,4 +46,5 @@ class AddMeetingMember(FormView, SuccessMessageMixin):
         m = Meeting.objects.all().last()
         m.temp_users.add(t)
         m.save()
+        messages.success(self.request, self.success_message)
         return super().form_valid(form)

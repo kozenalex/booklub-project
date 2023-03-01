@@ -10,8 +10,9 @@ from meetings.models import Meeting
 class HomeView(TemplateView):
 
     template_name = 'home.html'
+    next_meeting = Meeting.objects.all().last(),
     extra_context = {
-        'm': Meeting.objects.all().last(),
+        'meeting': next_meeting[0],
         'form': TempUserForm
     }
 
