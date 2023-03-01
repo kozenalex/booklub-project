@@ -1,0 +1,13 @@
+{% load bootstrap4 %}
+<div class="card">
+    <div class="card-header">
+      <h5>Записаться на встречу клуба</h5>
+    </div>
+    <div class="card-body">
+      <form action="{% url 'add_meeting_member' %}" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input type="submit" class="btn-primary" value="Записаться">
+      </form>
+    </div>
+  </div>

@@ -37,7 +37,7 @@ class TempUser(models.Model):
     telegram = models.CharField(
         max_length=255,
         validators=[UnicodeTelegramValidator()],
-        help_text="Обязательное поле. Начинается с @"
+        help_text="Обязательное поле. Начинается с @",
     )
 
     def __str__(self) -> str:

@@ -29,22 +29,32 @@ class MeetingCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
         'button': 'Запланировать'
     }
 
-class AddMeetingMember(FormView, SuccessMessageMixin):
+class AddMeetingMember(FormView):
 
+    meeting = Meeting.objects.all().last()
     form_class = TempUserForm
     success_url = reverse_lazy('index_page')
     success_message = 'Вы успешно записаны на следующую встречу!'
+    template_name = 'home.html'
+    extra_context = {
+         'meeting': meeting
+    }
+
 
     def form_valid(self, form):
         data = form.cleaned_data
-        t = TempUser.objects.create(
-            name=data['name'],
-            email=data['email'],
-            telegram=data['telegram']
-        )
-        t.save()
-        m = Meeting.objects.all().last()
-        m.temp_users.add(t)
-        m.save()
-        messages.success(self.request, self.success_message)
+        if Meeting.objects.last().temp_users.filter(telegram=data['telegram']) or \
+            Meeting.objects.last().temp_users.filter(email=data['email']):
+                self.success_message = 'Вы уже зарегистрированы на встречу!'
+        else:
+            t = TempUser.objects.create(
+                name=data['name'],
+                email=data['email'],
+                telegram=data['telegram']
+            )
+            t.save()
+            m = Meeting.objects.all().last()
+            m.temp_users.add(t)
+            m.save()
+        messages.error(self.request, self.success_message)    
         return super().form_valid(form)

@@ -6,5 +6,16 @@
         <p>{{meeting.date}}</p>
         <p>{{meeting.book}}</p>
         <p>{{meeting.place}}</p>
+        <hr>
+        <h5>Участники:</h5>
+        {% if meeting.get_people %}
+        <ul>
+            {% for p in meeting.get_people %}
+            <li>{{p}}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Пока никто не записался :(</p>
+        {% endif %}
     </div>
 </div>
