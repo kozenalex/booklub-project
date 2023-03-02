@@ -1,7 +1,8 @@
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
 from django.contrib import messages
-from django.views.generic import ListView, FormView
+from django.views.generic import ListView, FormView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -28,6 +29,27 @@ class MeetingCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     extra_context = {
         'button': 'Запланировать'
     }
+
+class AddMeetingLoginMember(LoginRequiredMixin, FormView):
+     
+     meeting = Meeting.objects.all().last()
+     template_name = 'home.html'
+     extra_context = {
+         'meeting': meeting
+     }
+
+     def post(self, request, *args: str, **kwargs):
+        curr_user = request.user.id
+        if self.meeting.particepents.filter(id=curr_user):
+            messages.warning(request, 'Вы уже зарегистрированы на встречу!')
+        else:
+            self.meeting.particepents.add(
+                curr_user
+            )
+            self.meeting.save()
+            messages.success(request, 'Вы успешно зарегистрированы на встречу!')
+        return render(request, self.template_name, context=self.extra_context)
+
 
 class AddMeetingMember(FormView):
 
@@ -56,5 +78,5 @@ class AddMeetingMember(FormView):
             m = Meeting.objects.all().last()
             m.temp_users.add(t)
             m.save()
-        messages.error(self.request, self.success_message)    
+        messages.success(self.request, self.success_message)    
         return super().form_valid(form)

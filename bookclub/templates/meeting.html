@@ -17,5 +17,11 @@
         {% else %}
         <p>Пока никто не записался :(</p>
         {% endif %}
+        {% if user.is_authenticated %}
+        <form action="{% url 'add_login_meeting_member' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" class="btn-primary" value="Записаться">
+        </form>
+        {% endif %}
     </div>
 </div>

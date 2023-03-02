@@ -5,6 +5,7 @@ from users.models import MyUser, TempUser
 class Meeting(models.Model):
 
     date = models.DateField(verbose_name='Дата')
+    time = models.TimeField(null=True)
     place = models.CharField(max_length=255, verbose_name='Место встречи')
     book = models.ForeignKey(Book, on_delete=models.PROTECT, verbose_name='Книга')
     particepents = models.ManyToManyField(
@@ -17,7 +18,8 @@ class Meeting(models.Model):
     @property
     def get_people(self):
         others = self.temp_users.all() if self.temp_users else self.temp_users
-        return others
+        members = self.particepents.all() if self.particepents else self.particepents
+        return list(others) + list(members)
     
     def __str__(self) -> str:
         return f'Встреча {self.date}'

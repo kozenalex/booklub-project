@@ -5,7 +5,7 @@ class MeetingCreateForm(ModelForm):
 
     class Meta:
         model = Meeting
-        fields = ['date', 'book', 'place']
+        fields = ['date', 'time', 'book', 'place']
         widgets = {
             'date': SelectDateWidget()
         }
