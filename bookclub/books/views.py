@@ -1,9 +1,11 @@
 from django.urls import reverse_lazy
+from django.views.generic import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from books.models import Book
+from articles.models import Article
 
 
 
@@ -29,6 +31,17 @@ class BookCreateView(LoginRequiredMixin, BooksView, CreateView):
         'title': 'Добавить кнгу',
         'button': 'Добавить',
     }
+
+class BookView(BooksView, TemplateView):
+
+    template_name = 'book.html'
+    def get_context_data(self, **kwargs):
+        book = Book.objects.get(pk=kwargs['pk'])
+        articles = Article.objects.filter(book=book.id)
+        return {
+            'book': book,
+            'articles': articles
+        }
 
 
 class StatusUpdateView(BooksView, UpdateView):

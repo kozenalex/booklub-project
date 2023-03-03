@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% load i18n %}
+<div class="container wrapper flex-grow-1">
+    <h1 class="my-4 text-light">Книга: {{book.title}}</h1>    
+    <div class="card">
+    <div class="card-header bg-secondary text-white">
+        <h4>Краткое описание</h4>
+    </div>
+    <div class="card-body bg-light">
+        <div class="row p-1">
+            <div style="display: inline-flex">
+                <img src="{{book.img.url}}" alt="" style="width: auto; height: 320px;">
+            </div>
+            <div class="col">
+                <p>            
+                    {{book.description}}
+                </p>
+            </div>        
+        </div>
+        <hr>
+        <div class="row p-1">
+            <div class="col">Автор:  {{ book.author }}</div>
+            <div class="col">
+                <a href="{% url 'article_create' pk=book.id %}">Написать отзыв</a>
+            </div>
+        </div>
+        <div class="row p-1">
+            <h4>Отзывы:</h4>
+        </div>
+        {% for a in articles %}
+        <div class="row">
+            <div class="card">
+                <div class="card-header">
+                    <p>{{a.author}}</p>
+                </div>
+                <div class="card-body">
+                    <p>{{a.text}}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+</div>
+</div>
+</div>
+{% endblock %}

@@ -10,6 +10,7 @@
 <thead>
   <tr>
     <th>Название</th>
+    <th>Автор</th>
     <th>Дата обсуждения</th>
     <th>Обложка</th>
   </tr>
@@ -17,7 +18,8 @@
 <tbody>
     {% for s in books_list %}  
     <tr>
-      <td>{{ s.title }}</td>
+      <td><a href="{% url 'book_detail' pk=s.id %}">{{ s.title }}</a></td>
+      <td>{{s.author}}</td>
       <td>{{ s.created_at }}</td>
       <td>
         <img src={{s.img.url}} alt="" class="img-fluid img-thumbnail" style="width:auto; height: 100px;">

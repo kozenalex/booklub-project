@@ -1,5 +1,4 @@
 from django.shortcuts import redirect
-from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordChangeView
 from django.views.generic.list import ListView
 from django.contrib import messages
@@ -46,11 +45,11 @@ class UserUpdateView(UserView, UpdateView):
     template_name = 'edit.html'
     context_object_name = 'user'
     extra_context = {
-        'title': _('Update user profile'),
-        'button': _('Update'),
+        'title': 'Изменение профиля пользователя',
+        'button': 'Изменить',
         'is_user': True
     }
-    success_message = _('Profile updated')
+    success_message = 'Профиль успешно изменен'
     success_url = reverse_lazy('users_list')
 
 
@@ -76,10 +75,10 @@ class UserDeleteView(UserView, DeleteView):
 
     template_name = 'confirm_delete.html'
     extra_context = {
-        'title': _('Delete user'),
+        'title': 'Удалить профиль пользователя',
         'is_user': True
     }
-    success_message = _('User profile deleted')
+    success_message = 'Профиль успешно удален'
     success_url = reverse_lazy('users_list')
 
     def post(self, request, *args, **kwargs):

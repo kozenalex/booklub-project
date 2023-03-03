@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+{% load bootstrap4 %}
+{% load i18n %}
+{% block content %}
+<h1 class="my-4 text-light">{{ title }} ?</h1>
+<p class="text-light">Вы уверены, что хотите удалить{{ object }}?</p>
+<form method="post" class="form">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+      <button type="submit" class="btn btn-danger">
+        Да, удалить!
+      </button>
+    {% endbuttons %}
+  </form>
+{% endblock %}
