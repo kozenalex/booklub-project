@@ -37,7 +37,7 @@ class BookView(BooksView, TemplateView):
     template_name = 'book.html'
     def get_context_data(self, **kwargs):
         book = Book.objects.get(pk=kwargs['pk'])
-        articles = Article.objects.filter(book=book.id)
+        articles = Article.objects.filter(book=book.id).order_by('created_at').reverse()
         return {
             'book': book,
             'articles': articles

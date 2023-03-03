@@ -14,7 +14,6 @@ class ArticleCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     template_name = 'edit.html'
     fields = ['text']
     success_message = 'Отзыв успешно оуликован!'
-    success_url = reverse_lazy('books_list')
     extra_context = {
         'title': 'Отзыв на книгу',
         'button': 'Опубликовать'
@@ -33,4 +32,7 @@ class ArticleCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
             author=author,
             text=request.POST.get('text')
         )
-        return redirect(self.success_url)
+        return redirect(reverse_lazy(
+            'book_detail',
+            kwargs={'pk':book.id}
+        ))
