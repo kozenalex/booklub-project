@@ -6,15 +6,18 @@ from django.contrib.messages.views import SuccessMessageMixin
 from users.forms import TempUserForm
 from users.models import MyUser
 from meetings.models import Meeting
+from articles.models import Article
 
 class HomeView(TemplateView):
 
     template_name = 'home.html'
     
     next_meeting = Meeting.objects.all().last()
+    last_article = Article.objects.all().last()
     extra_context = {
         'meeting': next_meeting,
-        'form': TempUserForm
+        'form': TempUserForm,
+        'article': last_article
     }
 
 
