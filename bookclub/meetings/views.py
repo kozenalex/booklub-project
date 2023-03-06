@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views import View
 from django.contrib import messages
+from django.core.mail import send_mail
 from django.views.generic import ListView, FormView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
+from articles.models import Article
 from meetings.forms import MeetingCreateForm
 from users.forms import TempUserForm
 from users.models import MyUser, TempUser
@@ -35,7 +36,8 @@ class AddMeetingLoginMember(LoginRequiredMixin, FormView):
      meeting = Meeting.objects.all().last()
      template_name = 'home.html'
      extra_context = {
-         'meeting': meeting
+         'meeting': meeting,
+         'article': Article.objects.all().last()
      }
 
      def post(self, request, *args: str, **kwargs):
@@ -47,6 +49,7 @@ class AddMeetingLoginMember(LoginRequiredMixin, FormView):
                 curr_user
             )
             self.meeting.save()
+            self.meeting.send_meet_mail([request.user.email])
             messages.success(request, 'Вы успешно зарегистрированы на встречу!')
         return render(request, self.template_name, context=self.extra_context)
 
@@ -78,5 +81,6 @@ class AddMeetingMember(FormView):
             m = Meeting.objects.all().last()
             m.temp_users.add(t)
             m.save()
+            m.send_meet_mail([t.email])
         messages.success(self.request, self.success_message)    
         return super().form_valid(form)

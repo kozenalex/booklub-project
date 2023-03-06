@@ -1,6 +1,7 @@
 from django.db import models
 from books.models import Book
 from users.models import MyUser, TempUser
+from django.core.mail import send_mail
 
 class Meeting(models.Model):
 
@@ -21,6 +22,17 @@ class Meeting(models.Model):
         members = self.particepents.all() if self.particepents else self.particepents
         return list(others) + list(members)
     
+    def send_meet_mail(self, recipients):
+
+        send_mail(
+                subject=f'Книжный клую "Фантастика"',
+                message=f'''Вы зарегистрированы на встречу книжного клуба,
+                  которая состоится {self.date} в {self.time}.
+                  Место встречи: {self.place}''',
+                from_email='akosin@udm.ru',
+                recipient_list=recipients
+            )
+
     def __str__(self) -> str:
         return f'Встреча {self.date}'
 
