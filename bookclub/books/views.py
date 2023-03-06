@@ -4,6 +4,7 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
+
 from books.models import Book
 from articles.models import Article
 
@@ -23,9 +24,9 @@ class BooksListView(BooksView, ListView):
 
 class BookCreateView(LoginRequiredMixin, BooksView, CreateView):
 
-    fields = ['title', 'description', 'img']
+    fields = ['title', 'author', 'description', 'img']
     template_name = 'edit.html'
-    success_message = 'Book created successfuly'
+    success_message = 'Книга успешно добавлена!'
     success_url = reverse_lazy('books_list')
     extra_context = {
         'title': 'Добавить кнгу',
