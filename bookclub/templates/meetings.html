@@ -12,6 +12,9 @@
     <th>Дата Встречи</th>
     <th>Участники</th>
     <th>Книга</th>
+    {% if user.is_staff %}
+    <th></th>
+    {% endif %}
   </tr>
 </thead>
 <tbody>
@@ -28,6 +31,9 @@
       <td>
         {{s.book}}
       </td>
+      {% if user.is_staff %}
+      <td><a href="{% url 'meeting_update' pk=s.id %}">Изменить</a></td>
+      {% endif %}
     </tr>
     {% endfor %}
 </tbody>

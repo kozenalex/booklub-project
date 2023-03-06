@@ -84,3 +84,15 @@ class AddMeetingMember(FormView):
             m.send_meet_mail([t.email])
         messages.success(self.request, self.success_message)    
         return super().form_valid(form)
+
+class MeetingUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+
+    model = Meeting
+    fields = ['date', 'time', 'place', 'book', 'particepents', 'temp_users']
+    success_url = reverse_lazy('meetings_list')
+    success_message = 'Встреча обновлена успешно!'
+    template_name = 'edit.html'
+    extra_context = {
+        'title': 'Изменение встречи',
+        'button': 'Изменить'
+    }
