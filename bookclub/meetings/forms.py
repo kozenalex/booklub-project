@@ -1,4 +1,4 @@
-from django.forms import ModelForm, SelectDateWidget
+from django.forms import ModelForm, SelectDateWidget, TimeInput
 from meetings.models import Meeting
 
 class MeetingCreateForm(ModelForm):
@@ -7,5 +7,6 @@ class MeetingCreateForm(ModelForm):
         model = Meeting
         fields = ['date', 'time', 'book', 'place']
         widgets = {
-            'date': SelectDateWidget()
+            'date': SelectDateWidget(),
+            'time': TimeInput(format='%H:%M', attrs={'type': 'time'})
         }
