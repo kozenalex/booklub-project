@@ -1,4 +1,6 @@
 from django.db import models
+import requests
+import json
 
 class Book(models.Model):
 
@@ -12,8 +14,29 @@ class Book(models.Model):
         verbose_name='Обложка'
     )
     author = models.CharField(max_length=255, blank=True, verbose_name='Автор')
+    google_img = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, verbose_name='Описание')
     created_at = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def get_google_thumbnail(self):
+        if not self.google_img:
+            response = requests.get(
+                            url='https://www.googleapis.com/books/v1/volumes',
+                            params={
+                                'q': self.title + '+' + self.author,
+                                'printType': 'books',
+                                'projection':'lite'
+                            })
+            r_j = json.loads(response.text)
+            thumbs = [
+                x['volumeInfo']['imageLinks']['thumbnail'] for \
+                    x in r_j['items'] if x['volumeInfo'].get('imageLinks')
+            ]
+            self.google_img = thumbs[0] if thumbs else None
+            self.save()
+        return self.google_img
+
 
     def __str__(self) -> str:
         return self.title

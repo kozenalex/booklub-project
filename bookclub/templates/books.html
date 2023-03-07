@@ -22,7 +22,7 @@
       <td>{{s.author}}</td>
       <td>{{ s.created_at }}</td>
       <td>
-        <img src={{s.img.url}} alt="" class="img-fluid img-thumbnail" style="width:auto; height: 100px;">
+        <img src={{s.get_google_thumbnail}} alt="" class="img-fluid img-thumbnail" style="width:auto; height: 100px;">
       </td>
     </tr>
     {% endfor %}

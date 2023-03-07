@@ -3,6 +3,8 @@ from books.models import Book
 from users.models import MyUser, TempUser
 from django.core.mail import send_mail
 
+from bookclub import settings
+
 class Meeting(models.Model):
 
     date = models.DateField(verbose_name='Дата')
@@ -29,7 +31,7 @@ class Meeting(models.Model):
                 message=f'''Вы зарегистрированы на встречу книжного клуба,
                   которая состоится {self.date} в {self.time}.
                   Место встречи: {self.place}''',
-                from_email='akosin@udm.ru',
+                from_email=settings.EMAIL_HOST_USER,
                 recipient_list=recipients
             )
 
