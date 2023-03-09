@@ -3,14 +3,14 @@
         <h5 class="px-2">Следующая встреча</h5>
     </div>
     <div class="card-body bg-secondary">
-        <p>{{meeting[0].date}}</p>
-        <p>{{meeting[0].book}}</p>
-        <p>{{meeting[0].place}}</p>
+        <p>{{meeting.date}}</p>
+        <p>{{meeting.book}}</p>
+        <p>{{meeting.place}}</p>
         <hr>
         <h5>Участники:</h5>
-        {% if meeting[0].get_people %}
+        {% if meeting.get_people %}
         <ul>
-            {% for p in meeting[0].get_people %}
+            {% for p in meeting.get_people %}
             <li>{{p}}</li>
             {% endfor %}
         </ul>

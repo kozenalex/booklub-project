@@ -36,7 +36,7 @@ class AddMeetingLoginMember(LoginRequiredMixin, FormView):
      meeting = Meeting.objects.all().order_by('-id')[:1]
      template_name = 'home.html'
      extra_context = {
-         'meeting': meeting,
+         'meeting': meeting[0],
          'article': Article.objects.all().order_by('-id')[0]
      }
 
@@ -62,7 +62,7 @@ class AddMeetingMember(FormView):
     success_message = 'Вы успешно записаны на следующую встречу!'
     template_name = 'home.html'
     extra_context = {
-         'meeting': meeting
+         'meeting': meeting[0]
     }
 
 
