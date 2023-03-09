@@ -12,6 +12,10 @@ install:
 .PHONY: run
 run:
 		@$(MANAGE) runserver
+.PHONY: req
+req:
+		poetry export -o requirements.txt --without-hashes
+
 .PHONY: test
 test:
 		@$(MANAGE) test --with-coverage --cover-xml
