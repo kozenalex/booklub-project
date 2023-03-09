@@ -2,9 +2,8 @@
 __pycache__/
 db.sqlite3
 .env
-task_manager/__pycache__/
-task_manager/migrations/__pycache__/
+*/__pycache__/
+*/migrations/
 *.pyc
 .DS_store
 *.swp
-bookclub/media/
