@@ -21,3 +21,5 @@ test:
 		@$(MANAGE) test --with-coverage --cover-xml
 lint:
 		flake8 task_manager users statuses labels task
+start:
+		gunicorn stripe_buy.wsgi
