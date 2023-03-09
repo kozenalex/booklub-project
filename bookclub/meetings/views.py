@@ -33,11 +33,11 @@ class MeetingCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
 
 class AddMeetingLoginMember(LoginRequiredMixin, FormView):
      
-     meeting = Meeting.objects.all().last()
+     meeting = Meeting.objects.all().order_by('-id')[:1]
      template_name = 'home.html'
      extra_context = {
          'meeting': meeting,
-         'article': Article.objects.all().last()
+         'article': Article.objects.all().order_by('-id')[:1]
      }
 
      def post(self, request, *args: str, **kwargs):
@@ -56,7 +56,7 @@ class AddMeetingLoginMember(LoginRequiredMixin, FormView):
 
 class AddMeetingMember(FormView):
 
-    meeting = Meeting.objects.last()
+    meeting = Meeting.objects.all().order_by('-id')[:1]
     form_class = TempUserForm
     success_url = reverse_lazy('index_page')
     success_message = 'Вы успешно записаны на следующую встречу!'

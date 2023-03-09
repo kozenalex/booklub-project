@@ -12,8 +12,8 @@ class HomeView(TemplateView):
 
     template_name = 'home.html'
     
-    next_meeting = Meeting.objects.all().last()
-    last_article = Article.objects.all().last()
+    next_meeting = Meeting.objects.all().order_by('-id')[:1]
+    last_article = Article.objects.all().order_by('-id')[:1]
     extra_context = {
         'meeting': next_meeting,
         'form': TempUserForm,

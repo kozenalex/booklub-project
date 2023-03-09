@@ -4,7 +4,7 @@ shell:
 		@$(MANAGE) shell_plus
 .PHONY: migrate
 migrate:
-		@$(MANAGE) makemigrations bookclub users books meetings articles
+		@$(MANAGE) makemigrations users books meetings articles
 		@$(MANAGE) migrate		
 .PHONY: install
 install:
