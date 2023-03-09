@@ -16,10 +16,13 @@ run:
 req:
 		poetry export -o requirements.txt --without-hashes
 
+addadmin:
+		@$(MANAGE) add_admin
+
 .PHONY: test
 test:
 		@$(MANAGE) test --with-coverage --cover-xml
 lint:
 		flake8 task_manager users statuses labels task
 start:
-		gunicorn bookclub.wsgi
+		cd bookclub && gunicorn bookclub.wsgi
