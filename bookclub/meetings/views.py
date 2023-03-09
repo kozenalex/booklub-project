@@ -42,7 +42,7 @@ class AddMeetingLoginMember(LoginRequiredMixin, FormView):
 
      def post(self, request, *args: str, **kwargs):
         curr_user = request.user.id
-        if self.meeting.particepents.filter(id=curr_user):
+        if self.meeting[0].particepents.filter(id=curr_user):
             messages.warning(request, 'Вы уже зарегистрированы на встречу!')
         else:
             self.meeting.particepents.add(
@@ -68,8 +68,8 @@ class AddMeetingMember(FormView):
 
     def form_valid(self, form):
         data = form.cleaned_data
-        if self.meeting.temp_users.filter(telegram=data['telegram']) or \
-            self.meeting.temp_users.filter(email=data['email']):
+        if self.meeting[0].temp_users.filter(telegram=data['telegram']) or \
+            self.meeting[0].temp_users.filter(email=data['email']):
                 self.success_message = 'Вы уже зарегистрированы на встречу!'
         else:
             t = TempUser.objects.create(
@@ -78,7 +78,7 @@ class AddMeetingMember(FormView):
                 telegram=data['telegram']
             )
             t.save()
-            m = Meeting.objects.all().last()
+            m = self.meeting[0]
             m.temp_users.add(t)
             m.save()
             m.send_meet_mail([t.email])
