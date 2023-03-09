@@ -21,7 +21,9 @@
 </div>
 <div class="row">
     <div class="col-md-6">
+      {% if meeting %}
       {% include 'meeting.html' %}
+      {% endif %}
     </div>
     <div class="col-md-6">
       {% if not user.is_authenticated %}
@@ -33,7 +35,7 @@
         </div>
         <div class="card-body bg-secondary">
           <h6>Книга: 
-            <a href="{% url 'book_detail' pk=article[0].book.id %}">
+            <a href="{% url 'book_detail' pk=article.book.id %}">
               {{article.book}}
             </a>
           </h6>

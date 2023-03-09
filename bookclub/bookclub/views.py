@@ -17,7 +17,7 @@ class HomeView(TemplateView):
     extra_context = {
         'meeting': next_meeting,
         'form': TempUserForm,
-        'article': last_article
+        'article': last_article[0]
     }
 
 

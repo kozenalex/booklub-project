@@ -37,7 +37,7 @@ class AddMeetingLoginMember(LoginRequiredMixin, FormView):
      template_name = 'home.html'
      extra_context = {
          'meeting': meeting,
-         'article': Article.objects.all().order_by('-id')[:1]
+         'article': Article.objects.all().order_by('-id')[0]
      }
 
      def post(self, request, *args: str, **kwargs):
