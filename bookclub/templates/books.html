@@ -6,6 +6,7 @@
 {% if user.is_staff %}
 <a class="nav-link" href="{% url 'book_create' %}">Добавить книгу</a>
 {% endif %}
+<div class="container">
 <table class="table table-striped text-light">
 <thead>
   <tr>
@@ -28,6 +29,6 @@
     {% endfor %}
 </tbody>
 </table>
-
+</div>
   </div>
 {% endblock %}

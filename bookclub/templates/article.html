@@ -1,0 +1,15 @@
+<div class="card">
+    <div class="card-header">
+      <h5>Последний отзыв на книги:</h5>
+    </div>
+    <div class="card-body bg-secondary">
+      <h6>Книга: 
+        <a href="{% url 'book_detail' pk=article.book.id %}" class="text-light">
+          {{article.book}}
+        </a>
+      </h6>
+      <h6>Автор: {{ article.author }}</h6>
+      <hr>
+      <p>{{article.text}}</p>
+    </div>
+  </div>

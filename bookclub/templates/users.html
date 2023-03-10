@@ -18,7 +18,7 @@
     <tr>
       <td>{{ u.username }}</td>
       <td>{{ u }}</td>
-      <td>{{ u.telegram }}</td>
+      <td><a href="https://t.me/{{u.telegram}}">{{ u.telegram }}</a></td>
       <td>{{ u.date_joined }}</td>
       <td>
         {% if u.avatar %}
