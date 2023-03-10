@@ -6,12 +6,13 @@ from django.views.generic import ListView, FormView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
+
 from articles.models import Article
 from meetings.forms import MeetingCreateForm
 from users.forms import TempUserForm
 from users.models import MyUser, TempUser
-
 from meetings.models import Meeting
+from bookclub.mixins import HomeContextMixin
 
 class MeetingsListView(ListView, LoginRequiredMixin):
 
@@ -31,45 +32,45 @@ class MeetingCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
         'button': 'Запланировать'
     }
 
-class AddMeetingLoginMember(LoginRequiredMixin, FormView):
+class AddMeetingLoginMember(HomeContextMixin, LoginRequiredMixin, FormView):
      
-     meeting = Meeting.objects.all().order_by('-id')[:1]
+     next_meeting = HomeContextMixin.get_next_meeting()
      template_name = 'home.html'
      extra_context = {
-         'meeting': meeting[0],
-         'article': Article.objects.all().order_by('-id')[0]
+         'meeting': next_meeting,
+         'article': HomeContextMixin.get_last_article()
      }
 
      def post(self, request, *args: str, **kwargs):
         curr_user = request.user.id
-        if self.meeting[0].particepents.filter(id=curr_user):
+        if self.next_meeting.particepents.filter(id=curr_user):
             messages.warning(request, 'Вы уже зарегистрированы на встречу!')
         else:
-            self.meeting.particepents.add(
+            self.next_meeting.particepents.add(
                 curr_user
             )
-            self.meeting.save()
-            self.meeting.send_meet_mail([request.user.email])
+            self.next_meeting.save()
+            self.next_meeting.send_meet_mail([request.user.email])
             messages.success(request, 'Вы успешно зарегистрированы на встречу!')
         return render(request, self.template_name, context=self.extra_context)
 
 
-class AddMeetingMember(FormView):
+class AddMeetingMember(HomeContextMixin, FormView):
 
-    meeting = Meeting.objects.all().order_by('-id')[:1]
+    next_meeting = HomeContextMixin.get_next_meeting()
     form_class = TempUserForm
     success_url = reverse_lazy('index_page')
     success_message = 'Вы успешно записаны на следующую встречу!'
     template_name = 'home.html'
     extra_context = {
-         'meeting': meeting[0]
+         'meeting': next_meeting
     }
 
 
     def form_valid(self, form):
         data = form.cleaned_data
-        if self.meeting[0].temp_users.filter(telegram=data['telegram']) or \
-            self.meeting[0].temp_users.filter(email=data['email']):
+        if self.next_meeting.temp_users.filter(telegram=data['telegram']) or \
+            self.next_meeting.temp_users.filter(email=data['email']):
                 self.success_message = 'Вы уже зарегистрированы на встречу!'
         else:
             t = TempUser.objects.create(
@@ -78,10 +79,9 @@ class AddMeetingMember(FormView):
                 telegram=data['telegram']
             )
             t.save()
-            m = self.meeting[0]
-            m.temp_users.add(t)
-            m.save()
-            m.send_meet_mail([t.email])
+            self.next_meeting.temp_users.add(t)
+            self.next_meeting.save()
+            self.next_meeting.send_meet_mail([t.email])
         messages.success(self.request, self.success_message)    
         return super().form_valid(form)
 

@@ -3,22 +3,22 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
+
 from users.forms import TempUserForm
 from users.models import MyUser
 from meetings.models import Meeting
 from articles.models import Article
+from bookclub.mixins import HomeContextMixin
 
-class HomeView(TemplateView):
+class HomeView(HomeContextMixin, TemplateView):
 
     template_name = 'home.html'
-    
-    next_meeting = Meeting.objects.all().order_by('-id')[:1]
-    last_article = Article.objects.all().order_by('-id')[:1]
-    extra_context = {
-        'meeting': next_meeting[0],
+    def get_context_data(self, **kwargs):
+        return {
+        'meeting': HomeContextMixin.get_next_meeting(),
         'form': TempUserForm,
-        'article': last_article[0]
-    }
+        'article': HomeContextMixin.get_last_article()
+        }
 
 
 class UserAuthView(SuccessMessageMixin, LoginView):

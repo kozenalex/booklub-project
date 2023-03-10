@@ -2,6 +2,7 @@ from django.db import models
 from books.models import Book
 from users.models import MyUser, TempUser
 from django.core.mail import send_mail
+import datetime
 
 from bookclub import settings
 
@@ -37,6 +38,7 @@ class Meeting(models.Model):
 
     def __str__(self) -> str:
         return f'Встреча {self.date}'
+    
 
 class MeetingToUser(models.Model):
 

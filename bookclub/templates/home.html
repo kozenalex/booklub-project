@@ -23,6 +23,15 @@
     <div class="col-md-6">
       {% if meeting %}
       {% include 'meeting.html' %}
+      {% else %}
+      <div class="card">
+        <div class="card-header">
+            <h5 class="px-2">Следующая встреча</h5>
+        </div>
+        <div class="card-body bg-secondary"> 
+          Встреча пока не запланирована, следите за нашими соцсетями.
+        </div>
+      </div>  
       {% endif %}
     </div>
     <div class="col-md-6">
@@ -35,7 +44,7 @@
         </div>
         <div class="card-body bg-secondary">
           <h6>Книга: 
-            <a href="{% url 'book_detail' pk=article.book.id %}">
+            <a href="">
               {{article.book}}
             </a>
           </h6>
