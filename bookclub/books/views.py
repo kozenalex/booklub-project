@@ -4,8 +4,8 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
-from rest_framework.generics import RetrieveAPIView
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.generics import RetrieveAPIView, CreateAPIView
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 
 from books.models import Book
 from books.serializers import BookDetailSerializer
@@ -52,8 +52,12 @@ class BookApiDetail(RetrieveAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = BookDetailSerializer
     queryset = Book.objects.all()
-        
 
+class BookApiCreate(CreateAPIView):
+
+    permission_classes = [IsAuthenticated]
+    serializer_class = BookDetailSerializer
+    queryset = Book.objects.all()
 
 class StatusUpdateView(BooksView, UpdateView):
 

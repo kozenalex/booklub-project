@@ -6,9 +6,9 @@ from django.utils.deconstruct import deconstructible
 
 @deconstructible
 class UnicodeTelegramValidator(validators.RegexValidator):
-    regex = r"^@[\w]{1,254}"
+    regex = r"[\w]{5,254}"
     message = """"
-        "Введите правильный ник телеграм, он начинается с @."
+        "Введите правильный ник телеграм, в нем не менее 5 символов. допущены буквы, цифры и подчеркивание"
     """
     flags = 0
 
@@ -19,7 +19,7 @@ class MyUser(User):
         max_length=255,
         blank=True,
         validators=[UnicodeTelegramValidator()],
-        help_text="Обязательное поле. Начинается с @"
+        help_text="Ваш правильный ник в телерам, если он есть"
     )
     avatar = models.ImageField(
         upload_to='avatars/%Y-%m-%d',
