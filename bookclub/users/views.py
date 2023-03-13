@@ -7,9 +7,13 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.utils.translation import gettext as _
 from users.forms import MyUserCreationForm, UserAvaUpdateForm, UserUpdateForm
 from users.models import MyUser
+
+from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
+from rest_framework.permissions import IsAuthenticated
+from users.permissions import IsOwnerProfileOrReadOnly
+from .serializers import userProfileSerializer
 
 
 class UserView(LoginRequiredMixin, SuccessMessageMixin):
@@ -56,7 +60,7 @@ class UserUpdateView(UserView, UpdateView):
 class UserPassChangeView(UserView, PasswordChangeView):
 
     template_name = 'pass_change.html'
-    success_message = _('Password changed')
+    success_message = 'Password changed'
     success_url = reverse_lazy('users_list')
 
 
@@ -65,7 +69,7 @@ class UserAvaChangeView(UserView, UpdateView):
     form_class = UserAvaUpdateForm
     context_object_name = 'user'
     template_name = 'ava_change.html'
-    success_message = _('Avatar changed')
+    success_message = 'Avatar changed'
     
     def get_success_url(self) -> str:
         user_id = self.get_object().id
@@ -86,5 +90,10 @@ class UserDeleteView(UserView, DeleteView):
             request.user.delete()
             messages.success(request, self.success_message)
         except ProtectedError:
-            messages.error(request, _('You can not delete user who is in use'))
+            messages.error(request, 'You can not delete user who is in use')
         return redirect(self.success_url)
+
+class UserProfileApiView(RetrieveUpdateDestroyAPIView):
+    queryset=MyUser.objects.all()
+    serializer_class=userProfileSerializer
+    permission_classes=[IsOwnerProfileOrReadOnly,IsAuthenticated]

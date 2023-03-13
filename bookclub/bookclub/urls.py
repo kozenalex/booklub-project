@@ -22,6 +22,10 @@ import users
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    #path to djoser end points
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.jwt')),
+    #path to local apps endpoints
     path('', bookclub.views.HomeView.as_view(), name='index_page'),
     path('users/', include('users.urls')),
     path('books/', include('books.urls')),

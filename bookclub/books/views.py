@@ -4,8 +4,11 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
+from rest_framework.generics import RetrieveAPIView
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from books.models import Book
+from books.serializers import BookDetailSerializer
 from articles.models import Article
 
 
@@ -43,6 +46,13 @@ class BookView(BooksView, TemplateView):
             'book': book,
             'articles': articles
         }
+
+class BookApiDetail(RetrieveAPIView):
+
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = BookDetailSerializer
+    queryset = Book.objects.all()
+        
 
 
 class StatusUpdateView(BooksView, UpdateView):
