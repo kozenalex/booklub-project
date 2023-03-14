@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework.generics import RetrieveAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 
-from books.models import Book
+from books.models import Book, BookRaiting
 from books.serializers import BookDetailSerializer
 from articles.models import Article
 

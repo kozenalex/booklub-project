@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Avg
 import requests
 import json
 
@@ -39,6 +40,17 @@ class Book(models.Model):
             self.save()
         return self.google_img
 
+    @property
+    def get_raiting(self):
+
+        avg_r = BookRaiting.objects.filter(book=self).aggregate(Avg('raiting'))
+        num = avg_r['raiting__avg'] if avg_r else 0
+        if num:
+            return int(
+                num + (0.5 if num > 0 else -0.5)
+            )
+        else:
+            return 0
 
     def __str__(self) -> str:
         return self.title

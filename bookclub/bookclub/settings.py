@@ -29,8 +29,8 @@ load_dotenv(dotenv_path=env_path)
 SECRET_KEY = os.getenv('SECRET_KEY', 'workaround')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.getenv('DEBUG', True))
-00
+DEBUG = os.getenv('DEBUG', 'true').lower() in {'yes', '1', 'true'}
+
 ALLOWED_HOSTS = ['*']
 
 
@@ -38,11 +38,11 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'django.contrib.staticfiles',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
     'django_extensions',
     'rest_framework',
     'bootstrap4',
@@ -139,7 +139,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # media files
