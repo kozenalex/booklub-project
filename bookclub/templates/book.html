@@ -36,11 +36,12 @@
                 <img src="{{book.get_google_thumbnail}}" alt="">
             </div>
             <div class="rating-result">
-                <span class="active"></span>	
-                <span class="active"></span>    
-                <span class="active"></span>  
-                <span></span>    
+                {% for i in book.get_yellow_stars %}
+                <span class="active"></span>
+                {% endfor %}	 
+                {% for i in book.get_blank_stars %}
                 <span></span>
+                {% endfor %}
             </div>
             <p>Средняя оценка: {{book.get_raiting}}</p>
             </div>

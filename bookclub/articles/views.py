@@ -30,11 +30,15 @@ class ArticleCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
         book = Book.objects.get(pk=kwargs['pk'])
         author = MyUser.objects.get(pk=request.user.id)
         raiting = request.POST.get('rating')
-        BookRaiting.objects.create(
-            book=book,
-            user=author,
-            raiting=raiting
-        )
+        curr_author_raiting = BookRaiting.objects.filter(user=author).filter(book=book)
+        if curr_author_raiting:
+            curr_author_raiting.update(raiting=raiting)
+        else:
+            BookRaiting.objects.create(
+                book=book,
+                user=author,
+                raiting=raiting
+            )
         Article.objects.create(
             book=book,
             author=author,

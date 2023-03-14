@@ -51,6 +51,14 @@ class Book(models.Model):
             )
         else:
             return 0
+    
+    @property
+    def get_yellow_stars(self):
+        return range(self.get_raiting)
+
+    @property
+    def get_blank_stars(self):
+        return range(5 - self.get_raiting)      
 
     def __str__(self) -> str:
         return self.title
@@ -65,3 +73,6 @@ class BookRaiting(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE, null=True)
     raiting = models.IntegerField(choices=RAITING_CHOICES)
+
+    def __str__(self):
+        return f'Оценка книги {self.book} от {self.user}'

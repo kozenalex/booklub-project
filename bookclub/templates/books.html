@@ -46,11 +46,12 @@
       <td>{{ s.created_at }}</td>
       <td>
         <div class="rating-mini">
-          <span class="active"></span>	
-          <span class="active"></span>    
-          <span class="active"></span>  
-          <span></span>    
+        {% for i in s.get_yellow_stars %}
+          <span class="active"></span>
+        {% endfor %}	 
+        {% for i in s.get_blank_stars %}
           <span></span>
+        {% endfor %}
         </div>
       </td>
     </tr>
