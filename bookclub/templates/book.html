@@ -1,6 +1,28 @@
 {% extends 'layout.html' %}
 {% block content %}
 {% load i18n %}
+<style>
+    .rating-result {
+	width: 265px;
+	margin: 0 auto;
+    float: left;
+}
+.rating-result span {
+	padding: 0;
+	font-size: 32px;
+	margin: 0 3px;
+	line-height: 1;
+	color: lightgrey;
+	text-shadow: 1px 1px #bbb;
+}
+.rating-result > span:before {
+	content: '★';
+}
+.rating-result > span.active {
+	color: gold;
+	text-shadow: 1px 1px #c60;
+}
+</style>
 <div class="container wrapper flex-grow-1">
     <h1 class="my-4 text-light">Книга: {{book.title}}</h1>    
     <div class="card">
@@ -17,6 +39,15 @@
                     {{book.description}}
                 </p>
             </div>        
+        </div>
+        <div class="row p-1">
+            <div class="rating-result">
+                <span class="active"></span>	
+                <span class="active"></span>    
+                <span class="active"></span>  
+                <span></span>    
+                <span></span>
+            </div>
         </div>
         <hr>
         <div class="row p-1">

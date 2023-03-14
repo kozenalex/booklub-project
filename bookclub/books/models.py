@@ -2,6 +2,8 @@ from django.db import models
 import requests
 import json
 
+from users.models import MyUser
+
 class Book(models.Model):
 
     title = models.CharField(max_length=255, verbose_name='Название книги')
@@ -40,3 +42,14 @@ class Book(models.Model):
 
     def __str__(self) -> str:
         return self.title
+
+class BookRaiting(models.Model):
+
+    RAITING_CHOICES = tuple(
+        zip(
+            range(0, 6), range(0, 6)
+        )
+    )
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE, null=True)
+    raiting = models.IntegerField(choices=RAITING_CHOICES)
