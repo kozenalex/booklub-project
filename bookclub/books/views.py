@@ -42,9 +42,15 @@ class BookView(BooksView, TemplateView):
     def get_context_data(self, **kwargs):
         book = Book.objects.get(pk=kwargs['pk'])
         articles = Article.objects.filter(book=book.id).order_by('created_at').reverse()
+        user_article = Article.objects.filter(author=self.request.user.id).filter(book=book.id)
+
         return {
             'book': book,
-            'articles': articles
+            'articles': articles,
+            'user_article_exist': user_article.first().id if user_article else None,
+            'raiting': book.get_raiting,
+            'y_stars': book.get_yellow_stars,
+            'b_stars': book.get_blank_stars
         }
 
 class BookApiDetail(RetrieveAPIView):

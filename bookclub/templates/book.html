@@ -36,14 +36,14 @@
                 <img src="{{book.get_google_thumbnail}}" alt="">
             </div>
             <div class="rating-result">
-                {% for i in book.get_yellow_stars %}
+                {% for i in y_stars %}
                 <span class="active"></span>
                 {% endfor %}	 
-                {% for i in book.get_blank_stars %}
+                {% for i in b_stars %}
                 <span></span>
                 {% endfor %}
             </div>
-            <p>Средняя оценка: {{book.get_raiting}}</p>
+            <p>Средняя оценка: {{raiting}}</p>
             </div>
             <div class="col">
                 <p>            
@@ -55,7 +55,11 @@
         <div class="row p-1">
             <div class="col">Автор:  {{ book.author }}</div>
             <div class="col">
+                {% if not user_article_exist %}
                 <a href="{% url 'article_create' pk=book.id %}">Написать отзыв</a>
+                {% else %}
+                <a href="{% url 'article_update' pk=user_article_exist%}">Редактировать отзыв</a>
+                {% endif %}
             </div>
         </div>
         <div class="row p-1">

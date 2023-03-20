@@ -48,3 +48,40 @@ class ArticleCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
             'book_detail',
             kwargs={'pk':book.id}
         ))
+
+class ArticleUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+
+    model = Article
+    fields = ['text']
+    template_name = 'edit.html'
+    extra_context = {
+        'title': 'Отзыв на книгу',
+        'button': 'Опубликовать',
+        'is_article': True
+    }
+
+    def get_success_url(self) -> str:
+        book = self.get_object().book
+        return reverse_lazy(
+            'book_detail',
+            kwargs= {'pk': book.id}
+        )
+    
+    def get(self, request, *args: str, **kwargs):
+        self.extra_context['book'] = self.get_object().book
+        return super().get(request, *args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+        author = MyUser.objects.get(pk=request.user.id)
+        book = Book.objects.get(pk=self.get_object().book.id)
+        raiting = request.POST.get('rating')
+        curr_author_raiting = BookRaiting.objects.filter(user=author).filter(book=book)
+        if curr_author_raiting:
+            curr_author_raiting.update(raiting=raiting)
+        else:
+            BookRaiting.objects.create(
+                book=book,
+                user=author,
+                raiting=raiting
+            )
+        return super().post(request, *args, **kwargs)

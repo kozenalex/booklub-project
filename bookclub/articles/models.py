@@ -11,7 +11,7 @@ class Article(models.Model):
 
     @property
     def get_author_raiting(self):
-        res = BookRaiting.objects.filter(user=self.author).first()
+        res = BookRaiting.objects.filter(user=self.author).filter(book=self.book).first()
         return res.raiting if res else 0
 
     def __str__(self) -> str:
