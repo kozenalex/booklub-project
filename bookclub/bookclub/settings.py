@@ -32,9 +32,9 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'workaround')
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'true').lower() in {'yes', '1', 'true'}
+DEBUG = os.getenv('DEBUG', 'true').lower() in {'1', 'true', 'yes'}
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1', 'bookclub-izh.onrender.com']
 
 
 # Application definition
