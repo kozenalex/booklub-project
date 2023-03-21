@@ -11,6 +11,7 @@ from users.models import MyUser
 
 class ArticleCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
 
+    login_url = reverse_lazy('login')
     model = Article
     template_name = 'edit.html'
     fields = ['text']
@@ -51,6 +52,7 @@ class ArticleCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
 
 class ArticleUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
 
+    login_url = reverse_lazy('login')
     model = Article
     fields = ['text']
     template_name = 'edit.html'
