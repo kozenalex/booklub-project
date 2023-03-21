@@ -21,7 +21,6 @@ class Book(models.Model):
     description = models.TextField(blank=True, verbose_name='Описание')
     created_at = models.DateTimeField(auto_now_add=True)
 
-    @property
     def get_google_thumbnail(self):
         if not self.google_img:
             response = requests.get(
@@ -39,6 +38,10 @@ class Book(models.Model):
             self.google_img = thumbs[0] if thumbs else None
             self.save()
         return self.google_img
+    
+    @property
+    def get_book_img(self):
+        return self.img.url if self.img else self.get_google_thumbnail()
 
     @property
     def get_raiting(self):

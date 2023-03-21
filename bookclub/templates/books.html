@@ -39,7 +39,7 @@
     {% for s in books_list %}  
     <tr>
       <td><a href="{% url 'book_detail' pk=s.id %}">
-        <img src={{s.get_google_thumbnail}} alt="" class="img-fluid img-thumbnail" style="width:auto; height: 100px;">
+        <img src={{s.get_book_img}} alt="" class="img-fluid img-thumbnail" style="width:auto; height: 100px;">
       </a></td>
       <td>{{s.title}}</td>
       <td>{{s.author}}</td>
