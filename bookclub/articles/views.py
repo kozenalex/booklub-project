@@ -76,9 +76,9 @@ class ArticleUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
         book = Book.objects.get(pk=self.get_object().book.id)
         raiting = request.POST.get('rating')
         curr_author_raiting = BookRaiting.objects.filter(user=author).filter(book=book)
-        if curr_author_raiting:
+        if curr_author_raiting and raiting:
             curr_author_raiting.update(raiting=raiting)
-        else:
+        elif not curr_author_raiting and raiting:
             BookRaiting.objects.create(
                 book=book,
                 user=author,
