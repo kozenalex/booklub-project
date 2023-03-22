@@ -18,6 +18,8 @@ req:
 
 addadmin:
 		@$(MANAGE) add_admin
+collectstatic:
+		poetry run python bookclub/manage.py collectstatic --no-input
 
 .PHONY: test
 test:
