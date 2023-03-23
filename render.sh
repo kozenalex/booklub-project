@@ -1,5 +1,4 @@
-curl -sSL https://install.python-poetry.org | python3 -
-poetry install
+pip3 install pip --upgrade
+pip3 install -r requirements.txt
 make migrate
-make addadmin
 make collectstatic
