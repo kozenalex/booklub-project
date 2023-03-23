@@ -1,14 +1,18 @@
 from django.db import models
 from django.db.models import Avg
+from django.core.files.storage import FileSystemStorage
 import requests
 import json
 
 from users.models import MyUser
 
+fs = FileSystemStorage(location='/media/books')
+
 class Book(models.Model):
 
     title = models.CharField(max_length=255, verbose_name='Название книги')
     img = models.ImageField(
+        storage= fs,
         upload_to='books/%Y-%m-%d/',
         blank=True,
         height_field=None,

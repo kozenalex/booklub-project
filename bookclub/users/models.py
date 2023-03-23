@@ -2,7 +2,9 @@ from django.contrib.auth.models import User
 from django.db import models
 import django.core.validators as validators
 from django.utils.deconstruct import deconstructible
+from django.core.files.storage import FileSystemStorage
 
+fs = FileSystemStorage(location='/media/avatars')
 
 @deconstructible
 class UnicodeTelegramValidator(validators.RegexValidator):
@@ -22,6 +24,7 @@ class MyUser(User):
         help_text="Ваш правильный ник в телерам, если он есть"
     )
     avatar = models.ImageField(
+        storage=fs,
         upload_to='avatars/%Y-%m-%d',
         null=True,
         blank=True
